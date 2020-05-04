@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +20,22 @@ import com.example.navi_calendaredit.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class FoodFragment extends Fragment {
+
+
+    EditText edit;
+    TextView text;
+    Button btn;
+
+    String Key = "NO2EbE%2Bu5KtWhuLp1rQALIAtWWnRDgj9mCuelgBAxRS%2Frxi12vyAMLBp%2F3KEanPiRfbO3hwggbbpZ%2B0XtKIolQ%3D%3D";
+    String data;
 
 
     public FoodFragment() {
@@ -30,10 +45,6 @@ public class FoodFragment extends Fragment {
     public  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
-
-
     }
 
 
@@ -53,6 +64,9 @@ public class FoodFragment extends Fragment {
 
 
         StrictMode.enableDefaults();
+        edit = (EditText) view.findViewById(R.id.edit);
+        text = (TextView) view.findViewById(R.id.text);
+        btn = (Button) view.findViewById(R.id.button);
 
         TextView status1 = (TextView)view.findViewById(R.id.result);
 
@@ -65,7 +79,7 @@ public class FoodFragment extends Fragment {
 
         try{
             URL url = new URL("http://apis.data.go.kr/6260000/BusanTblFnrstrnStusService/getTblFnrstrnStusInfo?"
-                    + "numOfRows=15&pageNo=1&serviceKey="
+                    + "numOfRows=100&pageNo=1&serviceKey="
                     + "NO2EbE%2Bu5KtWhuLp1rQALIAtWWnRDgj9mCuelgBAxRS%2Frxi12vyAMLBp%2F3KEanPiRfbO3hwggbbpZ%2B0XtKIolQ%3D%3D"
             );
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
@@ -181,8 +195,8 @@ public class FoodFragment extends Fragment {
                         break;
                     case XmlPullParser.END_TAG:
                         if(parser.getName().equals("item")){
-                            status1.setText(status1.getText()+"업종 : " + bsnsSector
-                                    +"\n 업태 : "+ bsnsCond +"\n 업소명 : "+ bsnsNm +"\n 소재지(도로명) : " + addrRoad +  "\n 소재지(지번) : " + addrJibun + "\n 메뉴 : " + menu
+                            status1.setText(status1.getText() +"업소명 : "+ bsnsNm +"\n 업종 : " + bsnsSector
+                                    +"\n 업태 : "+ bsnsCond + "\n 메뉴 : " + menu + "\n 소재지(도로명) : " + addrRoad +  "\n 소재지(지번) : " + addrJibun
                                     +"\n 전화번호 : " + tel + "\n 지정일자 : " + specDate + "\n 재지정일자 : " + ovrdDate+ "\n 구군명 : " + gugun+ "\n 데이터기준일자 : " + dataDay+ "\n 위도 : " + lat+ "\n 경도 : " + lng
                                     +"\n"+"\n");
                             initem = false;
@@ -197,3 +211,4 @@ public class FoodFragment extends Fragment {
         return view;
     }
 }
+
